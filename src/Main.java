@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args){
+
         try {
             quiz005();
         } catch (IOException e) {
