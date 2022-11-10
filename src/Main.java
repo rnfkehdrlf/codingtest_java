@@ -7,28 +7,37 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args){
         try {
-            quiz005();
+            quiz006();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    static void quiz005() throws IOException {
+    static void quiz006() throws IOException {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
-        int M = sc.nextInt();
 
-        long[] S = new long[N+1];
+        long[] A = new long[N];
 
         long answer = 0;
-        for (int i =1; i<N; i++) {
-            S[i] = S[i-1] + sc.nextInt();
+        for (int i =0; i<N; i++) {
+            A[i] = i+1;
         }
-        for(int i =0; i<=N; i++) {
-            for (int j = i+1; j<=N; j++) {
-                if((S[j]-S[i])%M == 0) {
-                    answer++;
-                }
+        long sum = 1;
+        int startIndex = 0;
+        int endIndex = 0;
+        while (endIndex < N) {
+            if (sum < N) {
+                endIndex++;
+                sum += A[endIndex];
+            } else if (sum > N) {
+                sum -= A[startIndex];
+                startIndex++;
+            } else {
+                answer++;
+                endIndex++;
+                if (endIndex < N)
+                    sum += A[endIndex];
             }
         }
 
