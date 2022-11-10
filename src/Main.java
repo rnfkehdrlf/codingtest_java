@@ -17,27 +17,21 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
 
-        long[] A = new long[N];
-
-        long answer = 0;
-        for (int i =0; i<N; i++) {
-            A[i] = i+1;
-        }
+        long answer = 1;
         long sum = 1;
-        int startIndex = 0;
-        int endIndex = 0;
+        int startIndex = 1;
+        int endIndex = 1;
         while (endIndex < N) {
             if (sum < N) {
                 endIndex++;
-                sum += A[endIndex];
+                sum += endIndex;
             } else if (sum > N) {
-                sum -= A[startIndex];
+                sum -= startIndex;
                 startIndex++;
             } else {
                 answer++;
                 endIndex++;
-                if (endIndex < N)
-                    sum += A[endIndex];
+                sum += endIndex;
             }
         }
 
