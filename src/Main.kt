@@ -1,32 +1,39 @@
-import java.io.BufferedReader
-import java.io.BufferedWriter
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
 import java.util.*
 
 fun main(args: Array<String>) {
-    quiz010()
+    quiz011()
 }
 
-fun quiz010() {
-    val br = BufferedReader(InputStreamReader(System.`in`))
-    val bw = BufferedWriter(OutputStreamWriter(System.`out`))
-    val (n, l) = br.readLine().split(" ").map(String::toInt)
-    val st = StringTokenizer(br.readLine(), " ")
-    val arr = IntArray(n) {
-        st.nextToken().toInt()
+fun quiz011() {
+    val sc = Scanner(System.`in`)
+    val N = sc.nextInt()
+    val A = IntArray(N) {
+        sc.nextInt()
     }
-    val deque = ArrayDeque<Node>(l)
-    for (i in 1..n) {
-        while (deque.isNotEmpty() && deque.first.index <= i - l)
-            deque.removeFirst()
-        while (deque.isNotEmpty() && deque.last.value >= arr[i - 1])
-            deque.removeLast()
-        deque.add(Node(arr[i - 1], i))
-        bw.write("${deque.first().value} ")
-    }
-    bw.flush()
-    bw.close()
-}
+    val stack = Stack<Int>()
+    var num = 1
+    val bf = StringBuffer()
+    var result = true
 
-internal class Node(var value: Int, var index: Int)
+    for (i in A.indices) {
+        if (A[i] >= num) {
+            while (A[i] >= num) {
+                stack.push(num++)
+                bf.append("+\n")
+            }
+            stack.pop()
+            bf.append("-\n")
+        }
+        else {
+            var value = stack.pop()
+            if (value > A[i]) {
+                println("NO")
+                result = false
+                break
+            }
+            else bf.append("-\n")
+
+        }
+    }
+    if (result) println(bf.toString())
+}
