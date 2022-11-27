@@ -4,43 +4,82 @@ import kotlin.collections.ArrayDeque
 fun main(args: Array<String>) {
 /*
 문제
-N장의 카드가 있다. 각각의 카드는 차례로 1부터 N까지의 번호가 붙어 있으며, 1번 카드가 제일 위에, N번 카드가 제일 아래인 상태로 순서대로 카드가 놓여 있다.
+절댓값 힙은 다음과 같은 연산을 지원하는 자료구조이다.
 
-이제 다음과 같은 동작을 카드가 한 장 남을 때까지 반복하게 된다. 우선, 제일 위에 있는 카드를 바닥에 버린다. 그 다음, 제일 위에 있는 카드를 제일 아래에 있는 카드 밑으로 옮긴다.
-
-예를 들어 N=4인 경우를 생각해 보자. 카드는 제일 위에서부터 1234 의 순서로 놓여있다. 1을 버리면 234가 남는다. 여기서 2를 제일 아래로 옮기면 342가 된다. 3을 버리면 42가 되고, 4를 밑으로 옮기면 24가 된다. 마지막으로 2를 버리고 나면, 남는 카드는 4가 된다.
-
-N이 주어졌을 때, 제일 마지막에 남게 되는 카드를 구하는 프로그램을 작성하시오.
+배열에 정수 x (x ≠ 0)를 넣는다.
+배열에서 절댓값이 가장 작은 값을 출력하고, 그 값을 배열에서 제거한다. 절댓값이 가장 작은 값이 여러개일 때는, 가장 작은 수를 출력하고, 그 값을 배열에서 제거한다.
+프로그램은 처음에 비어있는 배열에서 시작하게 된다.
 
 입력
-첫째 줄에 정수 N(1 ≤ N ≤ 500,000)이 주어진다.
+첫째 줄에 연산의 개수 N(1≤N≤100,000)이 주어진다. 다음 N개의 줄에는 연산에 대한 정보를 나타내는 정수 x가 주어진다. 만약 x가 0이 아니라면 배열에 x라는 값을 넣는(추가하는) 연산이고, x가 0이라면 배열에서 절댓값이 가장 작은 값을 출력하고 그 값을 배열에서 제거하는 경우이다. 입력되는 정수는 -231보다 크고, 231보다 작다.
 
 출력
-첫째 줄에 남게 되는 카드의 번호를 출력한다.
+입력에서 0이 주어진 회수만큼 답을 출력한다. 만약 배열이 비어 있는 경우인데 절댓값이 가장 작은 값을 출력하라고 한 경우에는 0을 출력하면 된다.
 
 예제 입력 1
-6
+18
+1
+-1
+0
+0
+0
+1
+1
+-1
+-1
+2
+-2
+0
+0
+0
+0
+0
+0
+0
 예제 출력 1
-4
+-1
+1
+0
+-1
+-1
+1
+1
+-2
+2
+0
 */
-    quiz013()
+    quiz014()
 }
 
-fun quiz013() {
+fun quiz014() {
 
 
     val sc = Scanner(System.`in`)
     val N = sc.nextInt()
 
-    val queue = ArrayDeque<Int>()
 
-    for (i in 1 .. N) {
-        queue.addLast(i)
+    val pq = PriorityQueue<Int> {o1,o2 ->
+        val firstAbs = Math.abs(o1)
+        val secondAbs = Math.abs(o2)
+        if (firstAbs == secondAbs) {
+            return@PriorityQueue if (o1 > o2) 1 else -1
+        } else {
+            return@PriorityQueue firstAbs - secondAbs
+        }
+    }
+    for (i in 0 until  N) {
+        val value = sc.nextInt()
+        if (value == 0) {
+            //출력 first
+            if (pq.isEmpty())
+                println("0")
+            else
+                println(pq.poll())
+        } else {
+            //add last
+            pq.add(value)
+        }
     }
 
-    while (queue.size > 1) {
-        queue.removeFirst()
-        queue.addLast(queue.removeFirst())
-    }
-    println(queue.removeFirst())
+
 }
